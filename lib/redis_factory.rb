@@ -18,24 +18,30 @@ class RedisFactory
   # @param [String] name The name of the redis configuration (config/redis.yml) )to use
   # @return [RedisClient] A redis client object (may be a failover capable proxy)
   def self.connect(name)
-    # conf = configuration[name]
-    # raise "No redis configuration for #{Rails.env} environment in redis.yml for #{name}" unless conf
+    conf = configuration[name].symbolize_keys!
+    raise "No redis configuration for #{Rails.env} environment in redis.yml for #{name}" unless conf
     synchronize do
       # if conf[:zkservers]
         # conf[:logger] = logger
-        @@clients[name] ||= ::RedisFailover::Client.new(
-            :zkservers => 'localhost:2181,localhost:2182,localhost:2183',
-            :znode_path => '/redis_failover',
-            :db => '1')
+        # @@clients[name] ||= ::RedisFailover::Client.new(
+        #     :zkservers => 'localhost:2181,localhost:2182,localhost:2183',
+        #     :znode_path => '/redis_failover',
+        #     :db => '1')
       # else
         # @@clients[name] ||= ::Redis.new()
       # end
+      if conf[:zkservers]
+        # conf[:logger] = logger
+        @@clients[name] ||= ::RedisFailover::Client.new(conf)
+      else
+        @@clients[name] ||= ::Redis.new(conf)
+      end
     end
     @@clients[name]
   end
 
   def self.disconnect(key = nil)
-    logger.debug "RedisFactory.disconnect start"
+    # logger.debug "RedisFactory.disconnect start"
     synchronize do
       @@clients.clone.each do |name, client|
         next if key && name != key
@@ -44,49 +50,63 @@ class RedisFactory
         if client
           begin
             if client.instance_of?(::RedisFailover::Client)
-              logger.debug "Disconnecting RedisFailover client: #{client}"
+              # logger.debug "Disconnecting RedisFailover client: #{client}"
               client.shutdown
             elsif client.instance_of?(::Redis)
-              logger.debug "Disconnecting Redis client: #{client}"
+              # logger.debug "Disconnecting Redis client: #{client}"
               client.quit
             else
               logger.warn("Couldn't reconnect unknown redis client type: #{client.class}")
             end
           rescue => e
-            logger.warn("Exception while disconnecting: #{e}")
+          #   logger.warn("Exception while disconnecting: #{e}")
           end
         end
       end
     end
-    logger.debug "RedisFactory.disconnect complete"
+    # logger.debug "RedisFactory.disconnect complete"
   end
 
   def self.reconnect(key = nil)
-    logger.debug "RedisFactory.reconnect start"
+    # logger.debug "RedisFactory.reconnect start"
     synchronize do
       @@clients.each do |name, client|
         next if key && name != key
 
         if client.instance_of?(::RedisFailover::Client)
-          logger.debug "Reconnecting RedisFailover client: #{client}"
+          # logger.debug "Reconnecting RedisFailover client: #{client}"
           client.reconnect
         elsif client.instance_of?(::Redis)
-          logger.debug "Reconnecting Redis client: #{client}"
+          # logger.debug "Reconnecting Redis client: #{client}"
           client.client.reconnect
         else
-          logger.warn("Couldn't reconnect unknown redis client type: #{client.class}")
+          # logger.warn("Couldn't reconnect unknown redis client type: #{client.class}")
         end
       end
     end
-    logger.debug "RedisFactory.reconnect complete"
+    # logger.debug "RedisFactory.reconnect complete"
   end
+
+  # def self.configuration
+  #   synchronize do
+  #     @@configuration ||= begin
+  #       # require 'erb'
+  #       # config = YAML::load("/Users/jose/projects/surfdome/surfdome/config/redis.yml")
+
+  #       self.symbolize(config)
+  #     end
+  #   end
+  # end
+
 
   def self.configuration
     synchronize do
       @@configuration ||= begin
-        # require 'erb'
-        config = YAML::load("/Users/jose/projects/surfdome/surfdome/config/redis.yml")
-        self.symbolize(config)
+        require 'erb'
+        # config = YAML::load(ERB.new(IO.read("../config/redis.yml")).result)
+        config = YAML.load(ERB.new(File.read('./config/redis.yml')).result)
+        # self.symbolize(config[ENV['RAILS_ENV']])
+        config = config[ENV['RAILS_ENV']].symbolize_keys!
       end
     end
   end

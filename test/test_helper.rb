@@ -2,7 +2,8 @@ require 'rails'
 require 'action_controller/metal/live'
 
 require 'test/unit'
-require 'mocha/setup'
+# require 'mocha/setup'
+require 'mocha/test_unit'
 require 'shoulda-context'
 require 'ap'
 
