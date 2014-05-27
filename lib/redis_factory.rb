@@ -1,3 +1,5 @@
+require 'redis_failover'
+
 # A factory class for creating redis connections, and reconnecting them after a fork
 #
 # It uses RedisFailover as the client if config/redis.yml contains a
@@ -23,7 +25,7 @@ class RedisFactory
         # conf[:logger] = logger
         @@clients[name] ||= ::RedisFailover::Client.new(
             :zkservers => 'localhost:2181,localhost:2182,localhost:2183',
-            :znode_path => '/redis_failover/nodes',
+            :znode_path => '/redis_failover',
             :db => '1')
       # else
         # @@clients[name] ||= ::Redis.new()
