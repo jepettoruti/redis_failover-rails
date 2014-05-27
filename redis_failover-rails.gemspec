@@ -21,10 +21,15 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'redis_failover'
 
-  s.add_runtime_dependency 'activesupport', '~> 4'
 
   s.add_development_dependency 'rake',     '~> 10'
   s.add_development_dependency 'bundler',  '~> 1.3'
   s.add_development_dependency 'mocha',    '~> 0.14.0'
-  s.add_development_dependency 'minitest', '~> 4.2'
+  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'test-unit'
+  s.add_development_dependency 'shoulda-context'
+
+  s.add_dependency 'activesupport', '~> 4'
+  s.add_dependency 'actionpack',  '~> 4'
+
 end

@@ -6,7 +6,25 @@ module RedisFailoverRails
     def self.config
       file = './config/redis.yml'
       config = YAML.load(ERB.new(File.read(file)).result)
-      config[ENV['RACK_ENV']]
+      config[ENV['RAILS_ENV']]
+
+
+
+
+      # read_yaml = ->(fname) do
+      #   begin
+      #     YAML.load(File.read(File.expand_path("../#{fname}", __FILE__)))
+      #   rescue Errno::ENOENT
+      #     {}
+      #   end
+      # end
+
+      # appconfig = read_yaml.('application.yml')
+      # defaults = read_yaml.('application_defaults.yml')
+      # CONFIG = defaults.deep_merge(appconfig)
+      # CONFIG.merge! CONFIG.fetch(Rails.env, {})
+      # CONFIG.symbolize_keys!
+
     end
 
     def self.host
