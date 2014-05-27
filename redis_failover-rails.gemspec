@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = RedisFailoverRails::VERSION
   s.authors     = ['Jose Pettoruti - Surfdome.com']
   s.email       = ['jose.pettoruti@surfdome.com']
-  s.homepage    = 'http://redis-store.org/redis-rails'
+  s.homepage    = 'https://github.com/surfdome/redis_failover-rails'
   s.summary     = %q{An ActiveSupport::Cache store using redis_failover}
   s.description = %q{An ActiveSupport::Cache store using redis_failover (a zookeeper based implementation of HA redis) for Rails apps.}
   s.license     = 'MIT'
