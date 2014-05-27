@@ -1,0 +1,30 @@
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path('../lib', __FILE__)
+require 'redis_failover-rails/version'
+
+Gem::Specification.new do |s|
+  s.name        = 'redis_failover-rails'
+  s.version     = RedisFailoverRails::VERSION
+  s.authors     = ['Jose Pettoruti - Surfdome.com']
+  s.email       = ['jose.pettoruti@surfdome.com']
+  s.homepage    = 'http://redis-store.org/redis-rails'
+  s.summary     = %q{An ActiveSupport::Cache store using redis_failover}
+  s.description = %q{An ActiveSupport::Cache store using redis_failover (a zookeeper based implementation of HA redis) for Rails apps.}
+  s.license     = 'MIT'
+
+  # s.rubyforge_project = 'redis-rails'
+
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.require_paths = ['lib']
+
+  s.add_dependency 'redis_failover'
+
+  s.add_runtime_dependency 'activesupport', '~> 4'
+
+  s.add_development_dependency 'rake',     '~> 10'
+  s.add_development_dependency 'bundler',  '~> 1.3'
+  s.add_development_dependency 'mocha',    '~> 0.14.0'
+  s.add_development_dependency 'minitest', '~> 4.2'
+end

@@ -16,20 +16,22 @@ Just don't specify zknodes in the config file.
 
 ## Installation
 
-    ```ruby
+Just add the dependency to your Gemfile...
+
     # Gemfile
     gem 'redis_failover-rails', github: 'surfdome/redis_failover-rails' # Not in rubygems.org, yet...
-    ```
+
+ and run bundle install.
+
+    bundle install
 
 ## Usage
 In your application.rb (or environment), you should use something like:
 
-    ```ruby
     config.cache_store = :redis_cache_store, :cache
     config.cache_classes = true
     config.eager_load = true
     config.action_controller.perform_caching = true
-    ```
 
 ## Configuration
 

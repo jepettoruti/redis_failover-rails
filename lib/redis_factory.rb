@@ -32,7 +32,7 @@ class RedisFactory
     @@clients[name]
   end
 
-  def self.disconnect(key=nil)
+  def self.disconnect(key = nil)
     logger.debug "RedisFactory.disconnect start"
     synchronize do
       @@clients.clone.each do |name, client|
@@ -59,7 +59,7 @@ class RedisFactory
     logger.debug "RedisFactory.disconnect complete"
   end
 
-  def self.reconnect(key=nil)
+  def self.reconnect(key = nil)
     logger.debug "RedisFactory.reconnect start"
     synchronize do
       @@clients.each do |name, client|
