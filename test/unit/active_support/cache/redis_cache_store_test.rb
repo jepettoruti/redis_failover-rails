@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper.rb')
 require 'rbconfig'
-require 'test/unit'
+
 
 class RedisCacheStoreTest < ActiveSupport::TestCase
 
@@ -28,7 +28,7 @@ class RedisCacheStoreTest < ActiveSupport::TestCase
     end
   end
 
-  describe "integrated into rails cache" do
+  context "integrated into rails cache" do
 
     should "be using redis cache store" do
       assert_equal ActiveSupport::Cache::RedisCacheStore, Rails.cache.class

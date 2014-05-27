@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'test-unit'
   s.add_development_dependency 'shoulda-context'
+  s.add_development_dependency 'awesome_print'
 
   s.add_dependency 'activesupport', '~> 4'
   s.add_dependency 'actionpack',  '~> 4'

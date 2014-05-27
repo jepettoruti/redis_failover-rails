@@ -4,6 +4,7 @@ require 'action_controller/metal/live'
 require 'test/unit'
 require 'mocha/setup'
 require 'shoulda-context'
+require 'ap'
 
 ENV["RAILS_ENV"] = "test"
 # require File.expand_path('../../config/environment', __FILE__)
