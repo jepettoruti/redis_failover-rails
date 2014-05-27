@@ -2,7 +2,7 @@
 
 An ActiveSupport::Cache store using redis_failover (a zookeeper based implementation of HA redis) for Rails apps.
 
-This is based on the work done by [@wr0ngway](https://github.com/wr0ngway) (Matt Conway), available on ![redis_failover_example](https://github.com/wr0ngway/redis_failover_example).
+This is based on the work done by [@wr0ngway](https://github.com/wr0ngway) (Matt Conway), available on [redis_failover_example](https://github.com/wr0ngway/redis_failover_example).
 
 Also, this gem utilizes redis_failover, a gem that creates a Redis HA implementation, using zookeeper for mantaining the available nodes.
 This can be found on [redis_failover](https://github.com/ryanlecompte/redis_failover).
