@@ -1,0 +1,5 @@
+development:
+  host: localhost
+  port: 6380
+  thread_safe: true
+  zkservers: localhost:2181, localhost:2182, localhost:2183
