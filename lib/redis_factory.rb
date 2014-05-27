@@ -15,8 +15,10 @@ class RedisFactory
 
   # Creates a redis client for the given named configuration
   #
-  # @param [String] name The name of the redis configuration (config/redis.yml) )to use
-  # @return [RedisClient] A redis client object (may be a failover capable proxy)
+  # @param [String] name The name of the redis configuration
+  #         (config/redis.yml) )to use
+  # @return [RedisClient] A redis client object
+  #         (may be a failover capable proxy)
   def self.connect(name)
     conf = configuration[name].symbolize_keys!
     raise "No redis configuration for #{Rails.env} environment in redis.yml for #{name}" unless conf
@@ -31,7 +33,7 @@ class RedisFactory
         # @@clients[name] ||= ::Redis.new()
       # end
       if conf[:zkservers]
-        # conf[:logger] = logger
+        conf[:logger] = logger
         @@clients[name] ||= ::RedisFailover::Client.new(conf)
       else
         @@clients[name] ||= ::Redis.new(conf)
@@ -86,18 +88,6 @@ class RedisFactory
     end
     # logger.debug "RedisFactory.reconnect complete"
   end
-
-  # def self.configuration
-  #   synchronize do
-  #     @@configuration ||= begin
-  #       # require 'erb'
-  #       # config = YAML::load("/Users/jose/projects/surfdome/surfdome/config/redis.yml")
-
-  #       self.symbolize(config)
-  #     end
-  #   end
-  # end
-
 
   def self.configuration
     synchronize do
