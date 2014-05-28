@@ -36,13 +36,16 @@ In your application.rb (or environment), you should use something like:
 
 ## Testing
 In order to make your tests work, you need a working redis_failover installation, with Redis, Zookeeper and Node Manager running on the ports specified in the default config file.
+
 Also you need a single redis server running on port 6379.
+
 For running the tests, just:
 
     bundle exec rake
 
 ## Configuration
 In order to define your redis and redis_failover configurations, you just need to use the `redis.yml` config file.
+
 This follows a format like this:
 
     environment:
@@ -50,7 +53,7 @@ This follows a format like this:
         parameter1:
         parameter2:
 
-This gem automatically selects a redis_failover client if you define :zkservers in the config file. If not, it just uses the standard redis client.
+This gem automatically selects a redis_failover client if you define `:zkservers` in the config file. If not, it just uses the standard redis client.
 
 This are the options available if you configure a redis_failover client:
 
@@ -84,6 +87,7 @@ Initially created by Jose Pettoruti - [@jepettoruti](https://github.com/jepettor
 
 ## Acknowledgements
 This couldn't have been achieved without the work of [@ryanlecompte](https://github.com/ryanlecompte/) for making the amazing redis_failover gem.
+
 Special thanks to [@wr0ngway](https://github.com/wr0ngway) for his example on how to implement this on Rubber.
 
 ## Contributing
