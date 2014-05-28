@@ -1,5 +1,7 @@
 # redis_failover-rails
 
+[ ![Codeship Status for surfdome/redis_failover-rails](https://codeship.io/projects/1f022be0-c7b8-0131-24ea-6eafa0062d3a/status?branch=master)](https://codeship.io/projects/22198)
+
 An ActiveSupport::Cache store using redis_failover (a zookeeper based implementation of HA redis) for Rails apps.
 
 This is based on the work done by [@wr0ngway](https://github.com/wr0ngway) (Matt Conway), available on [redis_failover_example](https://github.com/wr0ngway/redis_failover_example).
