@@ -19,13 +19,11 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_dependency 'redis_failover'
-
+  s.add_dependency 'redis_failover', '~> 1.0', '>= 1.0.2'
 
   s.add_development_dependency 'rake',     '~> 10'
   s.add_development_dependency 'bundler',  '~> 1.3'
-  s.add_development_dependency 'mocha'  #,    '~> 0.14.0'
-  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'mocha',  #'~> 1.1'  #,    '~> 0.14.0'
   s.add_development_dependency 'test-unit'
   s.add_development_dependency 'shoulda-context'
   s.add_development_dependency 'awesome_print'
@@ -33,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'activesupport', '~> 4'
   s.add_dependency 'actionpack',  '~> 4'
 
-  s.add_dependency "rails", "~> 4.1.1"
+  s.add_dependency "rails", "~> 4.1"
 
   s.add_development_dependency "sqlite3"
 
