@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake',     '~> 10'
   s.add_development_dependency 'bundler',  '~> 1.3'
-  s.add_development_dependency 'mocha',  #'~> 1.1'  #,    '~> 0.14.0'
+  s.add_development_dependency 'mocha'  #'~> 1.1'  #,    '~> 0.14.0'
   s.add_development_dependency 'test-unit'
   s.add_development_dependency 'shoulda-context'
   s.add_development_dependency 'awesome_print'
