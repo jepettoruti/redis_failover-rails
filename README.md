@@ -22,7 +22,7 @@ Just don't specify zkservers in the config file.
 Just add the dependency to your Gemfile...
 
     # Gemfile
-    gem 'redis_failover-rails', github: 'surfdome/redis_failover-rails' # Not in rubygems.org, yet...
+    gem 'redis_failover-rails'
 
  and run bundle install.
 
@@ -51,8 +51,8 @@ This follows a format like this:
 
     environment:
       instance:
-        parameter1:
-        parameter2:
+        parameter1: value1
+        parameter2: value2
 
 This gem automatically selects a redis_failover client if you define `:zkservers` in the config file. If not, it just uses the standard redis client.
 
