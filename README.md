@@ -80,7 +80,7 @@ Typical configuration parameters for standard redis clients are:
 Please keep in mind that this options are not validated, just passed to the client configuration.
 
 ## License
-TODO
+This gem is released with MIT licensing. Please see [LICENSE](https://github.com/surfdome/redis_failover-rails/blob/master/LICENSE) for details.
 
 ## Author
 Initially created by Jose Pettoruti - [@jepettoruti](https://github.com/jepettoruti) for Surfdome.com
