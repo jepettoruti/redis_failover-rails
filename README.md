@@ -45,7 +45,9 @@ For running the tests, just:
     bundle exec rake
 
 ## Configuration
-In order to define your redis and redis_failover configurations, you just need to use the `redis.yml` config file.
+In order to define your redis and redis_failover configurations, you just need to use the `redis.yml` config file
+
+This is mandatory at the moment of integrating the gem with your Rails app, there are no defaults. The existing config file in the repo is used for tests only, when you run the gem inside the Rails app, it tries to find the proper `redis.yml` file and if it doesn't exist, the app just doesn't start.
 
 This follows a format like this:
 
@@ -79,6 +81,31 @@ Typical configuration parameters for standard redis clients are:
     :password      - Redis connection password
 
 Please keep in mind that this options are not validated, just passed to the client configuration.
+
+Basic `redis.yml` examples:
+
+    # Standard redis
+    development:
+      cache:
+        host: localhost
+        port: 6379
+        db: 1
+      
+    # HA redis_failover in development
+    production:
+      hacache:
+        thread_safe: true
+        zkservers: localhost:2181, localhost:2182, localhost:2183
+        db: 1
+        znode_path: /redis_failover   #sometimes required...
+
+    # HA redis_failover for a production environment
+    production:
+      hacache:
+        thread_safe: true
+        zkservers: zk-1:2181, zk-2:2181, zk-3:2181
+        db: 1
+        znode_path: /redis_failover   #sometimes required...
 
 ## License
 This gem is released with MIT licensing. Please see [LICENSE](https://github.com/surfdome/redis_failover-rails/blob/master/LICENSE) for details.
