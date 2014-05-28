@@ -10,9 +10,20 @@ require 'ap'
 require 'redis_factory'
 
 ENV["RAILS_ENV"] = "test"
-# require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require "rails/test_help"
 
+require 'active_support/cache/redis_cache_store'
+
+Rails.backtrace_cleaner.remove_silencers!
+
+# Load support files
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
+# Load fixtures from the engine
+if ActiveSupport::TestCase.method_defined?(:fixture_path=)
+  ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
+end
 
 def dump_redis
   result = {}
@@ -45,3 +56,4 @@ class ActiveSupport::TestCase
   end
 
 end
+

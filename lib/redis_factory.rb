@@ -7,11 +7,12 @@ require 'redis_failover'
 class RedisFactory
   extend MonitorMixin
 
-
   @@configuration = nil
   @@clients = {}
 
-  def self.logger; Rails.logger; end
+  def self.logger
+    Rails.logger
+  end
 
   # Creates a redis client for the given named configuration
   #
@@ -43,50 +44,48 @@ class RedisFactory
   end
 
   def self.disconnect(key = nil)
-    # logger.debug "RedisFactory.disconnect start"
+    logger.debug "RedisFactory.disconnect start"
     synchronize do
       @@clients.clone.each do |name, client|
         next if key && name != key
-
         client = @@clients.delete(name)
         if client
           begin
             if client.instance_of?(::RedisFailover::Client)
-              # logger.debug "Disconnecting RedisFailover client: #{client}"
+              logger.debug "Disconnecting RedisFailover client: #{client}"
               client.shutdown
             elsif client.instance_of?(::Redis)
-              # logger.debug "Disconnecting Redis client: #{client}"
+              logger.debug "Disconnecting Redis client: #{client}"
               client.quit
             else
               logger.warn("Couldn't reconnect unknown redis client type: #{client.class}")
             end
           rescue => e
-          #   logger.warn("Exception while disconnecting: #{e}")
+            logger.warn("Exception while disconnecting: #{e}")
           end
         end
       end
     end
-    # logger.debug "RedisFactory.disconnect complete"
+    logger.debug "RedisFactory.disconnect complete"
   end
 
   def self.reconnect(key = nil)
-    # logger.debug "RedisFactory.reconnect start"
+    logger.debug "RedisFactory.reconnect start"
     synchronize do
       @@clients.each do |name, client|
         next if key && name != key
-
         if client.instance_of?(::RedisFailover::Client)
-          # logger.debug "Reconnecting RedisFailover client: #{client}"
+          logger.debug "Reconnecting RedisFailover client: #{client}"
           client.reconnect
         elsif client.instance_of?(::Redis)
-          # logger.debug "Reconnecting Redis client: #{client}"
+          logger.debug "Reconnecting Redis client: #{client}"
           client.client.reconnect
         else
-          # logger.warn("Couldn't reconnect unknown redis client type: #{client.class}")
+          logger.warn("Couldn't reconnect unknown redis client type: #{client.class}")
         end
       end
     end
-    # logger.debug "RedisFactory.reconnect complete"
+    logger.debug "RedisFactory.reconnect complete"
   end
 
   def self.configuration

@@ -16,128 +16,57 @@ class RedisFactoryTest < ActiveSupport::TestCase
 
   context "#configuration" do
     should "read in redis.yml" do
-      # IO.expects(:read).with("../config/redis.yml").returns(<<-EOF
-      #   test:
-      #       myredisdb:
-      #         db: 1
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      #   foo:
-      #       myredisdb:
-      #         host: bar
-      # EOF
-      # )
       assert_equal(
-        {:myredisdb=>{"db"=>1, "host"=>"localhost", "port"=>6379, "thread_safe"=>true}, :cache=>{"db"=>2, "host"=>"localhost", "port"=>6379, "thread_safe"=>true}, :hacache=>{"db"=>8, "thread_safe"=>true, "zkservers"=>"localhost:2181"}},
+        { :myredisdb => {
+              "db" => 1,
+              "host" => "localhost",
+              "port" => 6379,
+              "thread_safe" => true },
+          :cache => {
+              "db" => 2,
+              "host" => "localhost",
+              "port" => 6379,
+              "thread_safe" => true },
+          :hacache => {
+              "db" => 8,
+              "thread_safe" => true,
+              "zkservers" => "localhost:2181" }
+        },
         RedisFactory.configuration)
     end
 
-    should "read in redis.yml for different env" do
-      skip
-      # IO.expects(:read).with("#{Rubber.root}/config/redis.yml").returns(<<-EOF
-      #   test:
-      #       myredisdb:
-      #         db: 1
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      #   foo:
-      #       myredisdb:
-      #         host: bar
-      # EOF
-      # )
-      assert_equal({:myredisdb => {:host=>"bar"}}, RedisFactory.configuration)
-    end
+    # should "read in redis.yml for different env" do
+    #   skip
+    #   assert_equal({:myredisdb => {:host=>"bar"}}, RedisFactory.configuration)
+    # end
 
   end
 
   context "#connect" do
     should "return client for symbol" do
-      # IO.expects(:read).with("#{Rubber.root}/config/redis.yml").returns(<<-EOF
-      #   test:
-      #       myredisdb:
-      #         db: 1
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      #       cache:
-      #         db: 2
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      # EOF
-      # )
       assert_equal 1, RedisFactory.connect(:myredisdb).client.db
       assert_equal 2, RedisFactory.connect(:cache).client.db
     end
 
     should "reuse client for same symbol" do
-      # IO.expects(:read).with("#{Rubber.root}/config/redis.yml").returns(<<-EOF
-      #   test:
-      #       myredisdb:
-      #         db: 1
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      # EOF
-      # )
       assert_equal RedisFactory.connect(:myredisdb), RedisFactory.connect(:myredisdb)
     end
 
     should "return standard redis client if no zkservers" do
       client = mock()
       ::Redis.expects(:new).returns(client)
-      # IO.expects(:read).with("#{Rubber.root}/config/redis.yml").returns(<<-EOF
-      #   test:
-      #       myredisdb:
-      #         db: 1
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      # EOF
-      # )
       assert_equal client, RedisFactory.connect(:myredisdb)
     end
 
     should "return failover redis client if zkservers present" do
-      # skip
       client = mock()
       ::RedisFailover::Client.expects(:new).returns(client)
-      # IO.expects(:read).with("#{Rubber.root}/config/redis.yml").returns(<<-EOF
-      #   test:
-      #       myredisdb:
-      #         db: 1
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      #         zkservers: foo
-      # EOF
-      # )
       assert_equal client, RedisFactory.connect(:hacache)
     end
 
   end
 
   context "#disconnect" do
-
-    # setup do
-      # IO.expects(:read).with("#{Rubber.root}/config/redis.yml").returns(<<-EOF
-      #   test:
-      #       myredisdb:
-      #         db: 1
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      #       cache:
-      #         db: 2
-      #         host: localhost
-      #         port: 6379
-      #         thread_safe: true
-      # EOF
-      # )
-    # end
-
     should "disconnect specific client" do
       myredisdb_client = RedisFactory.connect(:myredisdb)
       cache_client = RedisFactory.connect(:cache)
@@ -159,24 +88,6 @@ class RedisFactoryTest < ActiveSupport::TestCase
   end
 
   context "#reconnect" do
-
-    # setup do
-    #   IO.expects(:read).with("#{Rubber.root}/config/redis.yml").returns(<<-EOF
-    #     test:
-    #         myredisdb:
-    #           db: 1
-    #           host: localhost
-    #           port: 6379
-    #           thread_safe: true
-    #         cache:
-    #           db: 2
-    #           host: localhost
-    #           port: 6379
-    #           thread_safe: true
-    #   EOF
-    #   )
-    # end
-
     should "reconnect specific client" do
       myredisdb_client = RedisFactory.connect(:myredisdb)
       cache_client = RedisFactory.connect(:cache)
