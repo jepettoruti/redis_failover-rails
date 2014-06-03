@@ -28,6 +28,23 @@ Just add the dependency to your Gemfile...
 
     bundle install
 
+**NOTE:** If you are running passenger or unicorn, you definitely want to add this to your 'config/initializers/passenger.rb' of your app.
+
+This is **_THIS IS VERY IMPORTANT IN PRODUCTION ENVIRONMENTS!!_**
+
+    if defined?(PhusionPassenger)
+      PhusionPassenger.on_event(:starting_worker_process) do |forked|
+        if forked
+          # We're in smart spawning mode.
+
+          # Reset redis failover clients
+          RedisFactory.reconnect
+        end
+      end
+    end
+
+This generates a reconnect after the app is forked so the redis clients get reset.
+
 ## Usage
 In your application.rb (or environment), you should use something like:
 
