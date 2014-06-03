@@ -29,7 +29,7 @@ Just add the dependency to your Gemfile...
 
     bundle install
 
-**NOTE:** If you are running passenger or unicorn, you definitely want to add this to your 'config/initializers/passenger.rb' of your app.
+**NOTE:** If you are running passenger or unicorn, you definitely want to add this to your `config/initializers/passenger.rb` of your app.
 
 This is **_THIS IS VERY IMPORTANT IN PRODUCTION ENVIRONMENTS!!_**
 
@@ -108,7 +108,7 @@ Basic `redis.yml` examples:
         host: localhost
         port: 6379
         db: 1
-      
+
     # HA redis_failover in development
     production:
       hacache:
