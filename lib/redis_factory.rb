@@ -24,17 +24,14 @@ class RedisFactory
     conf = configuration[name].symbolize_keys!
     raise "No redis configuration for #{Rails.env} environment in redis.yml for #{name}" unless conf
     synchronize do
-      # if conf[:zkservers]
-        # conf[:logger] = logger
-        # @@clients[name] ||= ::RedisFailover::Client.new(
-        #     :zkservers => 'localhost:2181,localhost:2182,localhost:2183',
-        #     :znode_path => '/redis_failover',
-        #     :db => '1')
-      # else
-        # @@clients[name] ||= ::Redis.new()
-      # end
       if conf[:zkservers]
-        conf[:logger] = logger
+        if conf[:logfile]
+          filelogger = Logger.new(conf[:logfile])
+          conf[:logger] = filelogger
+        else
+          conf[:logger] = logger
+        end
+
         @@clients[name] ||= ::RedisFailover::Client.new(conf)
       else
         @@clients[name] ||= ::Redis.new(conf)

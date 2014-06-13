@@ -21,16 +21,19 @@ class RedisFactoryTest < ActiveSupport::TestCase
               "db" => 1,
               "host" => "localhost",
               "port" => 6379,
-              "thread_safe" => true },
+              "thread_safe" => true,
+              "logfile" => "redlog.log"},
           :cache => {
               "db" => 2,
               "host" => "localhost",
               "port" => 6379,
-              "thread_safe" => true },
+              "thread_safe" => true,
+              "logfile" => "redlog.log" },
           :hacache => {
               "db" => 8,
               "thread_safe" => true,
-              "zkservers" => "localhost:2181" }
+              "zkservers" => "localhost:2181",
+              "logfile" => "redlog.log" }
         },
         RedisFactory.configuration)
     end

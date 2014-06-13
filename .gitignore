@@ -43,3 +43,4 @@ test/dummy/.sass-cache
 
 dump.rdb
 redis.log
+redlog.log

@@ -6,6 +6,7 @@ development:
     zkservers: localhost:2181, localhost:2182, localhost:2183
     znode_path: /redis_failover/nodes
     db: 1
+    logfile: redlog.log
 
 production:
   cache:
@@ -13,21 +14,25 @@ production:
     zkservers: localhost:2181, localhost:2182, localhost:2183
     znode_path: /redis_failover
     db: 0
+    logfile: redlog.log
 
 test:
   hacache:
     zkservers: localhost:2181
     db: 8
     thread_safe: true
+    logfile: redlog.log
   myredisdb:
     db: 1
     host: localhost
     port: 6379
     thread_safe: true
+    logfile: redlog.log
   cache:
     db: 2
     host: localhost
     port: 6379
     thread_safe: true
+    logfile: redlog.log
 
 
