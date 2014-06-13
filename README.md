@@ -125,6 +125,12 @@ Basic `redis.yml` examples:
         db: 1
         znode_path: /redis_failover   #sometimes required...
 
+## Improved logging
+Since version 0.2.0 we added an option to use a separate logfile for the logs coming from Redis_Failover. Using the `logfile:` option in the configuration file, the gem just creates a new logfile.
+
+Just add in redis.yml
+    logfile: redlog.log
+
 ## License
 This gem is released with MIT licensing. Please see [LICENSE](https://github.com/surfdome/redis_failover-rails/blob/master/LICENSE) for details.
 
