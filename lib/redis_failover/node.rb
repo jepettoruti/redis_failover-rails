@@ -5,6 +5,7 @@ module RedisFailover
     # @yield [Redis] the redis client to use for the operation
     # @raise [NodeUnavailableError] if node is currently unreachable
     def perform_operation
+      puts '!!!!!!!!!! Performing op'
       redis = nil
       Timeout.timeout(MAX_OP_WAIT_TIME) do
         redis = new_client
